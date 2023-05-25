@@ -4,6 +4,8 @@ import Category from '../Category/Category';
 import PopularMenu from '../PopularMenu/PopularMenu';
 import Featured from '../Featured/Featured';
 import Testimonials from '../Testimonials/Testimonials';
+import { Helmet } from 'react-helmet-async';
+
 
 const Home = () => {
     return (
