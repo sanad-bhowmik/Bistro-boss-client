@@ -1,11 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import './Login.css';
-import img from '../../../assets/others/authentication2.png'
+import img from '../../assets/others/authentication2.png'
+import { AuthContext } from '../../providers/AuthProviders';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const captchaRef = useRef(null)
     const [disable, setDisable] = useState(true)
+
+    const { signIn } = useContext(AuthContext);
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
@@ -16,7 +20,12 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        console.log(email, password)
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
     }
 
     const handleValidateCaptcha = e => {
@@ -47,7 +56,7 @@ const Login = () => {
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" />
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                <Link className="label-text-alt link link-hover">Forgot password?</Link>
                             </label>
                         </div>
                         <div className="form-control">
@@ -61,6 +70,7 @@ const Login = () => {
                             <input disabled={disable} className='btn btn-primary' type="submit" value="Login" />
                         </div>
                     </form>
+                     <button className="btn glass text-black"><small>New Here? <Link to="/signup" className='underline'>Create an account</Link> </small></button>
                 </div>
             </div>
         </div>
